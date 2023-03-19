@@ -20,7 +20,7 @@ import javafx.scene.input.KeyCode;
  * @see Clock Board
  */
 public class Game implements IWarnClock, IKeyListener {
-
+    //variables
     public static final int SCALE = 3;
     public static Image imagenes = null;
     public static Clock clock = new Clock(10);
@@ -34,7 +34,7 @@ public class Game implements IWarnClock, IKeyListener {
      * @param bg_context
      * @param original 
      */
-    //Constructor sobrecargado de Game, se le pasa por parámetro dos GraphicsContext
+    //Constructor sobrecargado de Game, se le pasa por parámetro dos GraphicsContext y un Dimension2D
     public Game(GraphicsContext context, GraphicsContext bg_context,
             Dimension2D original) {//, Dimension2D real) {
         this.ctx = context;

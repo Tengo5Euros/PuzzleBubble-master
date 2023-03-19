@@ -22,8 +22,8 @@ public class Level {
 
     //Constructor por defecto de Level
     public Level(){
-        this.tablero = new Dimension2D(5, 5); // inicializar con un tablero de 5x5
-        this.matrix = new BubbleType[5][5]; // inicializar matriz con burbujas vacías
+        this.tablero = new Dimension2D(70, 70);
+        this.matrix = new BubbleType[70][70];
     }
     //Constructor sobrecargado de Level
     public Level(Dimension2D tablero, BubbleType[][] matrix, int starty) {

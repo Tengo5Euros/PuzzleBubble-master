@@ -56,7 +56,7 @@ public class Board implements IKeyListener {
         this.debug = false;
 
             this.grid = new Ballgrid((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY());
-           // this.init(nivel_actual);
+            this.init(nivel_actual);
 
 
     }
@@ -64,21 +64,37 @@ public class Board implements IKeyListener {
     /**
      * muestra el grid
      */
-    
-    //definimos los niveles que vamos a realizar
+    //Creamos los niveles
+    public void CreateLevel() {
+        int nivel_actual = 0;
+        setLevels(new Level[3]);
+        this.getLevels()[0] = new Level();
+    }
+
+    //definimos los niveles que vamos a realizar y los insertamos dentro del array de niveles
     public void init(int nivel_actual) {
         this.setLevels(new Level[3]);
         BubbleType[][] level1 = {
-            {this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, null, null, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE},
-            {this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE}
+            {this.colores.RED, this.colores.ORANGE, this.colores.BLUE, null, this.colores.WRITE, this.colores.GREEN, this.colores.BLUE, this.colores.GRAY}
+
             //{this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE},
             //{this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE}
 
         };
 
-        this.getLevels()[0] = new Level(new Dimension2D((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY()), level1, 0);
+
+        this.getLevels()[0] = new Level(new Dimension2D((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY()), level1, 1);
         this.grid = new Ballgrid(this.levels[nivel_actual].getMatrix());
 
+        BubbleType[][] level2 = {
+                {this.colores.ORANGE, this.colores.GREEN, this.colores.GRAY, null, this.colores.WRITE, this.colores.YELLOW, this.colores.BLUE, this.colores.YELLOW}
+
+                //{this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE},
+                //{this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE}
+
+        };
+        this.getLevels()[1] = new Level(new Dimension2D((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY()), level2, 1);
+        this.grid = new Ballgrid(this.levels[nivel_actual].getMatrix());
     }
 // Método para realizar el debug de los parámetros que les demos
     private void Debug() {
@@ -155,13 +171,15 @@ public class Board implements IKeyListener {
 
     }
 
+    /**
+     * Pinta el lanzador y el grid de bolas
+     */
     private void render() {
         if (this.ball != null && this.ball.getBalltype() != null) {
             this.ball.paint(gc);
         }
 
-        this.shuttle.paint(gc);
-
+            this.shuttle.paint(gc);
             this.grid.paint(gc);
 
 
@@ -192,6 +210,7 @@ public class Board implements IKeyListener {
     //Método que define que nivel es para cambiar el fondo
     public void paintBackground() {
         Image imagen = Resources.getInstance().getImage("fondos");
+        //Segun el nivel actual, cambiamos el fondo
         if(this.nivel_actual==-1){
             this.bggc.drawImage(imagen, 1000, 454, this.original_size.getWidth(),
                     this.original_size.getHeight(), 0, 0, this.original_size.getWidth() * Game.SCALE, this.original_size.getHeight() * Game.SCALE);
@@ -242,7 +261,7 @@ public class Board implements IKeyListener {
                 this.right_press = false;
                 break;
 
-            case ENTER:
+            case ENTER: //En caso de pulsar Enter, cambiamos el nivel actual
 
 
                 this.nivel_actual++;
@@ -255,7 +274,7 @@ public class Board implements IKeyListener {
                 this.paintBackground();
 
                 break;
-            case SPACE:
+            case SPACE: // Si presionamos SPACE, dispararemos
                 //this.ball=new Bubble();
                 //se coloca el tipo de forma aleatorioa
                 this.ball = this.shuttle.shoot();

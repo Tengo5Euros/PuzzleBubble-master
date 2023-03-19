@@ -12,7 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Jose Maria
  */
 public class Ballgrid {
-
+    //variables
     private int startx;
     private int starty;
     private static final int ROWS = 12;
@@ -20,12 +20,18 @@ public class Ballgrid {
     private static final int MIN_BALLS_CONECT = 3;
     private Bubble bubblegrid[][];
 
+    /**
+     *  Constructor sobrecargado de Ballgrid, se le pasa por parámetro una matriz de BubbleType
+     */
+
     public Ballgrid(BubbleType[][] matrix) {
+        //asignamos el tamaño de la matriz de bubblegrid
         this.bubblegrid = new Bubble[Ballgrid.ROWS][Ballgrid.COLS];
         int f,c;
         for(int i=0;i<matrix.length;i++){
             for(int j=0;j<matrix[i].length;j++){
                 if(matrix[i][j]!=null){
+                    //Definimos la colocación de las bolas del nivel en el tablero
                     f = i*Bubble.HEIGHT- this.starty+31;
                     c = j*Bubble.WIDTH - this.startx+103;
                     this.bubblegrid[i][j]=new Bubble(c,f,matrix[i][j]);
@@ -109,9 +115,11 @@ public class Ballgrid {
 
 
                             //Las burbujas en las filas impares
-                        } else {
-                            //Si la fila es impar, se pondra justo debajo, sin mover a la izquierda
-                            //c = (int)((b.getPosicion().getX() - this.startx - Bubble.WIDTH / 2) / Bubble.WIDTH);
+                        }
+                        else {
+                            //Si la fila es impar, se pondra justo debajo, sin mover a la izquierda y no se sale del tablero, y cambiamos
+                            //el tamaño de la c por que es una fila menos
+                            c = (int)((b.getPosicion().getX() - this.startx - Bubble.WIDTH / 2) / Bubble.WIDTH);
                             b.setPosicion(new Point2D( this.startx + Bubble.WIDTH * c + Bubble.WIDTH ,
                                     this.starty + Bubble.HEIGHT * f + Bubble.HEIGHT/2));
 
