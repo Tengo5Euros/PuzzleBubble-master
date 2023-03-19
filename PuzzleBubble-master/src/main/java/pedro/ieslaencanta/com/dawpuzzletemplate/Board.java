@@ -22,7 +22,7 @@ import javafx.scene.paint.Color;
  * @see Bubble Level Shttle BallGrid
  */
 public class Board implements IKeyListener {
-
+    //variables
     private Rectangle2D game_zone;
 
     private GraphicsContext gc;
@@ -37,48 +37,50 @@ public class Board implements IKeyListener {
     private Ballgrid grid;
     private Level[] levels;
     public int nivel_actual;
+    private boolean terminado;
 
     /**
      * constructor
      *
      * @param original
      */
+    //Constructor sobrecargado de Board, al cual se le pasa como parametro un Dimension2D
     public Board(Dimension2D original) {
         this.gc = null;
         this.game_zone = new Rectangle2D(95, 23, 128, 200);
         this.original_size = original;
         this.right_press = false;
         this.left_press = false;
+        //Se inicializa el lanzador
         this.shuttle = new Shuttle(new Point2D((this.game_zone.getMaxX() - this.game_zone.getWidth() / 2), (this.game_zone.getMaxY() - 20)));
         this.debug = false;
-        this.grid = new Ballgrid((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY());
-        //this.init(nivel_actual);
+
+            this.grid = new Ballgrid((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY());
+           // this.init(nivel_actual);
+
+
     }
 
     /**
      * muestra el grid
      */
-    public void CreateLevel() {
-        int nivel_actual = 0;
-        setLevels(new Level[3]);
-        this.getLevels()[0] = new Level();
-    }
-
+    
+    //definimos los niveles que vamos a realizar
     public void init(int nivel_actual) {
         this.setLevels(new Level[3]);
         BubbleType[][] level1 = {
             {this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, null, null, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE},
-           // {this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE},
+            {this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE}
             //{this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE},
             //{this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE, this.colores.BLUE}
 
         };
 
-        this.getLevels()[0] = new Level((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY(), level1, 0);
+        this.getLevels()[0] = new Level(new Dimension2D((int) this.game_zone.getMinX(), (int) this.game_zone.getMinY()), level1, 0);
         this.grid = new Ballgrid(this.levels[nivel_actual].getMatrix());
 
     }
-
+// Método para realizar el debug de los parámetros que les demos
     private void Debug() {
         this.bggc.setStroke(Color.RED);
         for (int i = 0; i < 12; i++) {
@@ -159,7 +161,10 @@ public class Board implements IKeyListener {
         }
 
         this.shuttle.paint(gc);
-        this.grid.paint(gc);
+
+            this.grid.paint(gc);
+
+
     }
 
     private void process_input() {
@@ -183,6 +188,8 @@ public class Board implements IKeyListener {
     /**
      * pintar el fonodo
      */
+
+    //Método que define que nivel es para cambiar el fondo
     public void paintBackground() {
         Image imagen = Resources.getInstance().getImage("fondos");
         if(this.nivel_actual==-1){
@@ -190,7 +197,7 @@ public class Board implements IKeyListener {
                     this.original_size.getHeight(), 0, 0, this.original_size.getWidth() * Game.SCALE, this.original_size.getHeight() * Game.SCALE);
         }
         if(this.nivel_actual==0){
-            this.bggc.drawImage(imagen, 16, 17, this.original_size.getWidth(),
+            this.bggc.drawImage(imagen, 16, 16, this.original_size.getWidth(),
                     this.original_size.getHeight(), 0, 0, this.original_size.getWidth() * Game.SCALE, this.original_size.getHeight() * Game.SCALE);
         }
         if (this.nivel_actual==1){
@@ -224,7 +231,7 @@ public class Board implements IKeyListener {
                 break;
         }
     }
-
+    //Si se presiona el boton asignado, realizará lo que pone a continuación
     @Override
     public void onKeyReleased(KeyCode code) {
         switch (code) {
@@ -234,6 +241,7 @@ public class Board implements IKeyListener {
             case RIGHT:
                 this.right_press = false;
                 break;
+
             case ENTER:
 
 
@@ -243,12 +251,9 @@ public class Board implements IKeyListener {
                 if(nivel_actual>2){
                     nivel_actual=0;
                 }
-                if(this.grid!=null){
-                    this.shuttle = new Shuttle(new Point2D((this.game_zone.getMaxX()*1000 - this.game_zone.getWidth() / 2), (this.game_zone.getMaxY()*1000 - 20)));
-                    nivel_actual=-1;
-                }
+
                 this.paintBackground();
-                System.out.println("GAME OVER");
+
                 break;
             case SPACE:
                 //this.ball=new Bubble();
@@ -258,8 +263,14 @@ public class Board implements IKeyListener {
                 //this.ball.init(new Point2D((this.game_zone.getMaxX() - this.game_zone.getWidth() / 2),(this.game_zone.getMaxY() - 18)), (float) (Math.random()*360));
                 this.ball.play();
                 break;
-            case P:
+            case P://Si se pulsa la letra P, saldrá por pantalla el GAME OVER
+                if(this.grid!=null){
+                    this.shuttle = new Shuttle(new Point2D((this.game_zone.getMaxX()*1000 - this.game_zone.getWidth() / 2), (this.game_zone.getMaxY()*1000 - 20)));
+                    nivel_actual=-1;
+                }
 
+                System.out.println("GAME OVER");
+                this.paintBackground();
                 break;
             case E:
                 break;

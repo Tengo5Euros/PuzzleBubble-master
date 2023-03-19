@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
  * @author Jose Maria
  */
 public class Bubble {
+    //variables
     private enum State {
         PLAY,
         STOP
@@ -30,9 +31,11 @@ public class Bubble {
     this.posicion = new Point2D(x, y);
     this.balltype = balltype;
     }
+    //Constructor por defecto
     public Bubble() {
         this.estado = State.STOP;
     }
+
     public void init(Point2D p, float angle) {
         int vertical_center = (int) (p.getX());
         int horizontal_center = (int) (p.getY());
@@ -51,6 +54,7 @@ public class Bubble {
     public void changeDirectionVertical() {
         this.setAngulo(360.0f - this.getAngulo());
     }
+    //Método para mover la pelota y que rebote
     public boolean move(Rectangle2D b) {
         boolean pared = false;
         if (this.estado == State.PLAY) {
@@ -101,6 +105,7 @@ public class Bubble {
     /**
     * @param angulo the angulo to set
     */
+    //para cambiar el Angulo
     public void setAngulo(float angulo) {
         this.angulo = angulo;
         if (this.angulo < 0) {

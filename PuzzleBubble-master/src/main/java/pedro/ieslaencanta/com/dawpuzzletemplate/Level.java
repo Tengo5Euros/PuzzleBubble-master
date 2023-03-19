@@ -11,28 +11,27 @@ import javafx.scene.image.Image;
 
 /**
  *
- * @author Jose Maria
+ * @author Jose Maria, Bruno
  */
 public class Level {
+    //Variables
     private String sound;
     private Dimension2D tablero;
     private int starty;
     private BubbleType[][] matrix;
 
+    //Constructor por defecto de Level
     public Level(){
-    this.tablero= tablero;
-    this.setMatrix(new BubbleType[5][5]);
+        this.tablero = new Dimension2D(5, 5); // inicializar con un tablero de 5x5
+        this.matrix = new BubbleType[5][5]; // inicializar matriz con burbujas vacías
     }
-
-    public Level(int x, int y, BubbleType[][] matrix, int starty){
-        this.tablero=new Dimension2D(x,y);
-        this.matrix= matrix;
-        this.starty=starty;
-
-
-
+    //Constructor sobrecargado de Level
+    public Level(Dimension2D tablero, BubbleType[][] matrix, int starty) {
+        this.tablero = tablero;
+        this.matrix = matrix;
+        this.starty = starty;
     }
-
+    //Getters y Setters
     public String getSound() {
         return sound;
     }

@@ -34,6 +34,7 @@ public class Game implements IWarnClock, IKeyListener {
      * @param bg_context
      * @param original 
      */
+    //Constructor sobrecargado de Game, se le pasa por parámetro dos GraphicsContext
     public Game(GraphicsContext context, GraphicsContext bg_context,
             Dimension2D original) {//, Dimension2D real) {
         this.ctx = context;
@@ -46,6 +47,7 @@ public class Game implements IWarnClock, IKeyListener {
     /**
      * inicia el tablero
      */
+
     private void initBoard(){
          this.board=new Board(original_size);
          this.board.setBackGroundGraphicsContext(bg_context);
@@ -84,11 +86,5 @@ public class Game implements IWarnClock, IKeyListener {
         }
     }
 
-    private void paint() {
-       /* Resources r = Resources.getInstance();
-        this.bg_context.drawImage(r.getImage("fondos"), 16, 16, this.original_size.getWidth(), this.original_size.getHeight(),
-                0, 0, this.original_size.getWidth() * Game.SCALE, this.original_size.getHeight() * Game.SCALE);
-  */
-    }
 
 }
